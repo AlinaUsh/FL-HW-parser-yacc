@@ -1,0 +1,15 @@
+f.
+f :- a.
+f s :- d.
+f :- g.
+f :- g, h; t.
+f :- g, (h; t).
+f a :- g, h (t c d).
+f (cons h t) :- g h, f t.
+f a :- g h (t c d).
+f s :- s ( s s ( s s s ) ).
+f s :- s ( s ( s s s ) ).
+f :- (a(b)).
+f (( x (t) (((r))))) :- a.
+f (( x (t) (((r))))) a.
+
