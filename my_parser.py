@@ -102,13 +102,13 @@ def p_tail_inner_atom_tail(p):
 def p_inner_atom_atom(p):
     '''inner_atom : OPENBR atom CLOSEBR'''
     # print("p_inner_atom_atom")
-    p[0] = "( " + p[2] + " )"
+    p[0] =  p[2]
 
 
 def p_inner_atom_inner_atom(p):
     '''inner_atom : OPENBR inner_atom CLOSEBR'''
     # print("p_inner_atom_inner_atom")
-    p[0] = "( " + p[2] + " )"
+    p[0] = p[2]
 
 
 def p_error(p):
