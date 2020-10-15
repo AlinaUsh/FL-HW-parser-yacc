@@ -10,7 +10,8 @@ disj       -> conj ; disj | conj
 conj       -> expr , conj | expr
 expr       -> atom | ( disj )
 atom       -> lit | lit tail
-tail       -> atom | (tail) | (tail) tail
+tail       -> atom | inner_atom | inner_atom tail
+inner_atom -> ( atom ) | ( inner_atom )
 '''
 
 
@@ -75,22 +76,39 @@ def p_atom(p):
             | LITERAL tail'''
     # print("p_atom")
     if len(p) == 2:
-        p[0] = "( " + p[1] + " )"
+        p[0] = " ( " + p[1] + " ) "
     if len(p) == 3:
         p[0] = p[1] + " " + p[2]
 
 
-def p_tail(p):
-    '''tail : atom
-            | OPENBR tail CLOSEBR
-            | OPENBR tail CLOSEBR tail'''
-    # print("p_tail")
-    if len(p) == 2:
-        p[0] = "( " + p[1] + " )"
-    if len(p) == 4:
-        p[0] = " ( " + p[2] + " ) "
-    if len(p) == 5:
-        p[0] = " ( " + p[2] + " ) " + p[4]
+def p_tail_atom(p):
+    '''tail : atom'''
+    # print("p_tail_atom")
+    p[0] = " ( " + p[1] + " ) "
+
+
+def p_tail_inner_atom(p):
+    '''tail : inner_atom'''
+    # print("p_tail_inner_atom")
+    p[0] = " ( " + p[1] + " ) "
+
+
+def p_tail_inner_atom_tail(p):
+    '''tail : inner_atom tail'''
+    # print("p_tail_inner_atom_tail")
+    p[0] = " ( " + p[1] + p[2] + " ) "
+
+
+def p_inner_atom_atom(p):
+    '''inner_atom : OPENBR atom CLOSEBR'''
+    # print("p_inner_atom_atom")
+    p[0] = "( " + p[2] + " )"
+
+
+def p_inner_atom_inner_atom(p):
+    '''inner_atom : OPENBR inner_atom CLOSEBR'''
+    # print("p_inner_atom_inner_atom")
+    p[0] = "( " + p[2] + " )"
 
 
 def p_error(p):
